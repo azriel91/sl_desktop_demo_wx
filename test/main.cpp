@@ -19,13 +19,13 @@
 =============================================================================*/
 
 #include <string>
+#include <vector>
 
 #include <google/gtest/gtest.h>
 
 #include "azriel/cppmicroservices/core/include/usModuleRegistry.h"
-
-// currently there may be a bug with CppMicroServices - including this header causes a class redefinition compilation error
-// #include "azriel/cppmicroservices/core/include/usModuleContext.h"
+#include <azriel/cppmicroservices/core/include/usModule.h>
+#include <azriel/cppmicroservices/core/include/usModuleContext.h>
 
 #ifdef US_BUILD_SHARED_LIBS
 #include "azriel/usbundleloader/BundleLoader.h"
@@ -49,7 +49,7 @@ US_IMPORT_MODULE(CppMicroServices)
 US_IMPORT_MODULE(slDesktopDemoWx)
 #endif
 
-TEST(SlDesktopDemoWxBundle, CanBeLoaded) {
+TEST(SlDesktopDemoWxBundle, DisplaysWindow) {
 	try {
 #ifdef US_BUILD_SHARED_LIBS
 		BundleLoader bundleLoader;
@@ -59,10 +59,12 @@ TEST(SlDesktopDemoWxBundle, CanBeLoaded) {
 		const Module* const demoWxModule = ModuleRegistry::GetModule("slDesktopDemoWx");
 		EXPECT_TRUE(demoWxModule != NULL);
 
-		// auto const demoWxModuleContext = demoWxModule->GetModuleContext();
-		// auto const blankWindowServiceReference = demoWxModuleContext->GetServiceReference<sl::desktop::demo::wx::BlankDisplayService>();
-		// auto const service = demoWxModuleContext->GetService(blankWindowServiceReference);
-		// service->openWindow();
+		auto demoWxModuleContext = demoWxModule->GetModuleContext();
+		auto const blankWindowServiceReference = demoWxModuleContext->GetServiceReference<sl::desktop::demo::wx::BlankDisplayService>();
+		auto const service = demoWxModuleContext->GetService(blankWindowServiceReference);
+
+		char* argv[] = {};
+		service->openWindow(0, argv);
 	} catch (const std::exception& e) {
 		FAIL() << e.what();
 	}

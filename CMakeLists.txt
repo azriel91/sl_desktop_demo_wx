@@ -33,5 +33,8 @@ endif()
 
 # Tests
 if(NOT ${BII_IS_DEP})
+  # Need to tell GTest not to use std::tuple because CppMicroServices uses its own definition, and it causes a redefinition error
+  target_compile_definitions(${BII_test_main_TARGET} PRIVATE GTEST_HAS_TR1_TUPLE=0 GTEST_USE_OWN_TR1_TUPLE=1)
+
   add_subdirectory(test)
 endif()

@@ -63,7 +63,7 @@ TEST(SlDesktopDemoWxBundle, DisplaysWindow) {
 		auto const blankWindowServiceReference = demoWxModuleContext->GetServiceReference<sl::desktop::demo::wx::BlankDisplayService>();
 		auto const service = demoWxModuleContext->GetService(blankWindowServiceReference);
 
-		char* argv[] = {};
+		char* argv[] = { 0 };
 		service->openWindow(0, argv);
 	} catch (const std::exception& e) {
 		FAIL() << e.what();

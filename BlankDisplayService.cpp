@@ -29,7 +29,6 @@ namespace wx {
 
 BlankDisplayService::BlankDisplayService() {
 	wxApp::SetInstance( new BlankApplication() );
-	openWindow(0, nullptr);
 }
 
 BlankDisplayService::~BlankDisplayService() {
@@ -39,7 +38,7 @@ BlankDisplayService::~BlankDisplayService() {
 
 int BlankDisplayService::openWindow(int argc, char** argv) {
 	wxEntryStart(argc, argv);
-	wxTheApp->OnInit();
+	wxTheApp->CallOnInit();
 	wxTheApp->OnRun();
 	return 0;
 }

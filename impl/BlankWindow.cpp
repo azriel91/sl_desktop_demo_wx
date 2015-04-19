@@ -25,7 +25,7 @@ namespace desktop {
 namespace demo {
 namespace wx {
 
-wxBEGIN_EVENT_TABLE(sl::desktop::demo::wx::BlankWindow, wxFrame)
+wxBEGIN_EVENT_TABLE(BlankWindow, wxFrame)
 	EVT_MENU(ID_Hello,   BlankWindow::OnHello)
 	EVT_MENU(wxID_EXIT,  BlankWindow::OnExit)
 	EVT_MENU(wxID_ABOUT, BlankWindow::OnAbout)
@@ -55,8 +55,6 @@ BlankWindow::BlankWindow(const wxString& title, const wxPoint& pos, const wxSize
 	Connect(wxEVT_MOVE, wxMoveEventHandler(BlankWindow::OnMove));
 
 	Centre();
-
-	//Connect(wxEVT_MENU, wxCommandEventHandler(BlankWindow::OnHello));
 }
 
 BlankWindow::~BlankWindow() {

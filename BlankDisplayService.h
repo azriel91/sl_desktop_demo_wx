@@ -20,8 +20,8 @@
 
 #include "azriel/cppmicroservices/core/include/usServiceInterface.h"
 
-#ifdef US_BUILD_SHARED_LIBS
-	#ifdef slDesktopDemoWx_EXPORTS
+#ifdef BUILD_SHARED_LIBS
+	#ifdef azriel_sl_desktop_demo_wx_EXPORTS
 		#define SL_DESKTOP_DEMO_BLANK_DISPLAY_SERVICE_EXPORT US_ABI_EXPORT
 	#else
 		#define SL_DESKTOP_DEMO_BLANK_DISPLAY_SERVICE_EXPORT US_ABI_IMPORT

@@ -44,26 +44,9 @@ BlankWindow::BlankWindow(const wxString& title, const wxPoint& pos, const wxSize
 	SetMenuBar( menuBar );
 	CreateStatusBar();
 	SetStatusText( "Welcome to wxWidgets!" );
-
-
-	wxPanel* panel = new wxPanel(this, -1);
-	panel->SetSize(200, 100);
-
-	st1 = new wxStaticText(panel, -1, wxT(""), wxPoint(10, 10));
-	st2 = new wxStaticText(panel, -1, wxT(""), wxPoint(10, 30));
-
-	Connect(wxEVT_MOVE, wxMoveEventHandler(BlankWindow::OnMove));
-
-	Centre();
 }
 
 BlankWindow::~BlankWindow() {
-}
-
-void BlankWindow::OnMove(wxMoveEvent& event) {
-	wxPoint size = event.GetPosition();
-	st1->SetLabel(wxString::Format(wxT("x: %d"), size.x ));
-	st2->SetLabel(wxString::Format(wxT("y: %d"), size.y ));
 }
 
 void BlankWindow::OnHello(wxCommandEvent& WXUNUSED(event)) {

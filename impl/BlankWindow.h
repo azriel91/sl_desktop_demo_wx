@@ -30,10 +30,6 @@ namespace demo {
 namespace wx {
 
 class BlankWindow : public wxFrame {
-private:
-	wxStaticText *st1;
-	wxStaticText *st2;
-
 public:
 	enum Command {
 		ID_Hello = 1
@@ -43,7 +39,6 @@ public:
 	virtual ~BlankWindow();
 
 private:
-	void OnMove(wxMoveEvent & event);
 	void OnHello(wxCommandEvent& event);
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);

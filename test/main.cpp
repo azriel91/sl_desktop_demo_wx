@@ -65,6 +65,7 @@ TEST(SlDesktopDemoWxBundle, DisplaysWindow) {
 
 		char* argv[] = { 0 };
 		service->openWindow(0, argv);
+		service->closeWindow();
 	} catch (const std::exception& e) {
 		FAIL() << e.what();
 	}

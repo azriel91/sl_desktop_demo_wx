@@ -30,16 +30,25 @@
 #define SL_DESKTOP_DEMO_BLANK_DISPLAY_SERVICE_EXPORT US_ABI_EXPORT
 #endif
 
+#include <thread>
+
 namespace sl {
 namespace desktop {
 namespace demo {
 namespace wx {
 
 class SL_DESKTOP_DEMO_BLANK_DISPLAY_SERVICE_EXPORT BlankDisplayService {
+private:
+	std::thread* uiThread;
+
 public:
 	BlankDisplayService();
 	virtual ~BlankDisplayService();
-	int openWindow(int argc, char** argv);
+	void openWindow(int argc, char** argv);
+	void closeWindow();
+
+private:
+	static void wxEntry(int argc, char** argv);
 };
 
 } /* namespace wx */

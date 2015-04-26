@@ -27,20 +27,29 @@ namespace desktop {
 namespace demo {
 namespace wx {
 
-BlankDisplayService::BlankDisplayService() {
-	wxApp::SetInstance( new BlankApplication() );
+BlankDisplayService::BlankDisplayService() : uiThread(nullptr) {
 }
 
 BlankDisplayService::~BlankDisplayService() {
-	wxTheApp->OnExit();
-	wxEntryCleanup();
 }
 
-int BlankDisplayService::openWindow(int argc, char** argv) {
+void BlankDisplayService::openWindow(int argc, char** argv) {
+	this->uiThread = new std::thread(BlankDisplayService::wxEntry, argc, argv);
+}
+
+void BlankDisplayService::closeWindow() {
+	this->uiThread->join();
+	delete this->uiThread;
+	this->uiThread = nullptr;
+}
+
+void BlankDisplayService::wxEntry(int argc, char** argv) {
+	wxApp::SetInstance( new BlankApplication() );
 	wxEntryStart(argc, argv);
 	wxTheApp->CallOnInit();
 	wxTheApp->OnRun();
-	return 0;
+	wxTheApp->OnExit();
+	wxEntryCleanup();
 }
 
 } /* namespace wx */

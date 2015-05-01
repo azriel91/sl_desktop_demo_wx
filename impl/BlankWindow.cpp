@@ -20,6 +20,7 @@
 
 #include "BlankWindow.h"
 
+
 namespace sl {
 namespace desktop {
 namespace demo {
@@ -29,6 +30,8 @@ wxBEGIN_EVENT_TABLE(BlankWindow, wxFrame)
 	EVT_MENU(ID_Hello,   BlankWindow::OnHello)
 	EVT_MENU(wxID_EXIT,  BlankWindow::OnExit)
 	EVT_MENU(wxID_ABOUT, BlankWindow::OnAbout)
+
+	EVT_SL_DESKTOP_DEMO_SCREENSHOT(ScreenshotEvent::Command::ID_CAPTURE, BlankWindow::takeScreenshot)
 wxEND_EVENT_TABLE()
 
 BlankWindow::BlankWindow(const wxString& title, const wxPoint& pos, const wxSize& size) : wxFrame(NULL, wxID_ANY, title, pos, size) {
@@ -59,6 +62,21 @@ void BlankWindow::OnExit(wxCommandEvent& WXUNUSED(event)) {
 
 void BlankWindow::OnAbout(wxCommandEvent& event) {
 	wxMessageBox("This is a wxWidgets' Hello world sample", "About Hello World", wxOK | wxICON_INFORMATION );
+}
+
+void BlankWindow::takeScreenshot(ScreenshotEvent& event) {
+	wxMessageBox("Taking Screenshot", "ScreenshotEvent", wxOK | wxICON_INFORMATION );
+	wxSize screenSize = wxGetDisplaySize();
+	wxBitmap bitmap(screenSize.x, screenSize.y);
+	wxScreenDC deviceContext;
+	wxMemoryDC memDc;
+
+	memDc.SelectObject(bitmap);
+	memDc.Blit(0, 0, screenSize.x, screenSize.y, &deviceContext, 0, 0);
+	memDc.SelectObject(wxNullBitmap);
+
+	bitmap.SaveFile(event.GetFileName(), wxBITMAP_TYPE_PNG);
+	// return bitmap;
 }
 
 } /* namespace wx */

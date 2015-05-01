@@ -24,6 +24,8 @@
 	#include "fenix/wxwidgets/wx/wx.h"
 #endif
 
+#include "ScreenshotEvent.h"
+
 namespace sl {
 namespace desktop {
 namespace demo {
@@ -42,6 +44,8 @@ private:
 	void OnHello(wxCommandEvent& event);
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
+	void takeScreenshot(ScreenshotEvent& event);
+
 	wxDECLARE_EVENT_TABLE();
 };
 

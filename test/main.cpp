@@ -33,6 +33,11 @@
 #include "azriel/cppmicroservices/core/include/usModuleImport.h"
 #endif
 
+#include "fenix/wxwidgets/wx/wxprec.h"
+#ifndef WX_PRECOMP
+	#include "fenix/wxwidgets/wx/wx.h"
+#endif
+
 #include "slDesktopDemoWxTestConfig.h"
 #include "../BlankDisplayService.h"
 
@@ -65,7 +70,11 @@ TEST(SlDesktopDemoWxBundle, DisplaysWindow) {
 
 		char* argv[] = { 0 };
 		service->openWindow(0, argv);
+		service->saveScreenshot("before.png");
+
+		// TODO send event that closes the main window
 		service->closeWindow();
+		// service->saveScreenshot("after.png");
 	} catch (const std::exception& e) {
 		FAIL() << e.what();
 	}

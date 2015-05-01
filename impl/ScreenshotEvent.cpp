@@ -18,30 +18,27 @@
 
 =============================================================================*/
 
-#ifndef SL_DESKTOP_DEMO_WX__IMPL_BLANKAPPLICATION_H_
-#define SL_DESKTOP_DEMO_WX__IMPL_BLANKAPPLICATION_H_
-
-// For compilers that support precompilation, includes "wx/wx.h".
-#include "fenix/wxwidgets/wx/wxprec.h"
-#ifndef WX_PRECOMP
-	#include "fenix/wxwidgets/wx/wx.h"
-#endif
-
-#include "BlankWindow.h"
+#include "ScreenshotEvent.h"
 
 namespace sl {
 namespace desktop {
 namespace demo {
 namespace wx {
 
-class BlankApplication: public wxApp {
-public:
-	virtual bool OnInit();
-};
+wxDEFINE_EVENT(SL_DESKTOP_DEMO_WX_SCREENSHOT, ScreenshotEvent);
+
+ScreenshotEvent::ScreenshotEvent(wxEventType eventType, int id, const string& fileName) : wxCommandEvent(id, eventType), fileName(fileName) {
+}
+
+string ScreenshotEvent::GetFileName() const {
+	return this->fileName;
+}
+
+wxEvent* ScreenshotEvent::Clone() const {
+	return new ScreenshotEvent(*this);
+}
 
 } /* namespace wx */
 } /* namespace demo */
 } /* namespace desktop */
 } /* namespace sl */
-
-#endif /* SL_DESKTOP_DEMO_WX__IMPL_BLANKAPPLICATION_H_ */

@@ -8,7 +8,8 @@ include(biicode/cmake/tools)
 set(BII_LIB_SRC BlankWxWindowActivator.cpp
                 BlankDisplayService.cpp
                 impl/BlankApplication.cpp
-                impl/BlankWindow.cpp)
+                impl/BlankWindow.cpp
+                impl/ScreenshotEvent.cpp)
 SET(BII_LIB_DEPS ${BII_LIB_DEPS} azriel_cppmicroservices)
 set(BII_test_main_SRC test/main.cpp)
 

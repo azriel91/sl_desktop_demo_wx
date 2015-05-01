@@ -31,6 +31,7 @@
 #endif
 
 #include <thread>
+#include "impl/BlankApplication.h"
 
 namespace sl {
 namespace desktop {
@@ -40,12 +41,14 @@ namespace wx {
 class SL_DESKTOP_DEMO_BLANK_DISPLAY_SERVICE_EXPORT BlankDisplayService {
 private:
 	std::thread* uiThread;
+	BlankApplication* const application;
 
 public:
 	BlankDisplayService();
 	virtual ~BlankDisplayService();
 	void openWindow(int argc, char** argv);
 	void closeWindow();
+	void saveScreenshot(const std::string fileName) const;
 
 private:
 	static void wxEntry(int argc, char** argv);

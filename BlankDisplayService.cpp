@@ -21,19 +21,23 @@
 #include "BlankDisplayService.h"
 
 #include "impl/BlankApplication.h"
+#include "impl/ScreenshotEvent.h"
 
 namespace sl {
 namespace desktop {
 namespace demo {
 namespace wx {
 
-BlankDisplayService::BlankDisplayService() : uiThread(nullptr) {
+BlankDisplayService::BlankDisplayService() : uiThread(nullptr), application(new BlankApplication()) {
 }
 
 BlankDisplayService::~BlankDisplayService() {
+	// The application is deleted by wx when it exits
+	// delete this->application;
 }
 
 void BlankDisplayService::openWindow(int argc, char** argv) {
+	wxApp::SetInstance(this->application);
 	this->uiThread = new std::thread(BlankDisplayService::wxEntry, argc, argv);
 }
 
@@ -43,8 +47,12 @@ void BlankDisplayService::closeWindow() {
 	this->uiThread = nullptr;
 }
 
+void BlankDisplayService::saveScreenshot(const std::string fileName) const {
+	ScreenshotEvent* const screenshotEvent = new ScreenshotEvent(SL_DESKTOP_DEMO_WX_SCREENSHOT, ScreenshotEvent::Command::ID_CAPTURE, fileName);
+	this->application->QueueEvent(screenshotEvent); // Unfortunately this doesn't appear to work
+}
+
 void BlankDisplayService::wxEntry(int argc, char** argv) {
-	wxApp::SetInstance( new BlankApplication() );
 	wxEntryStart(argc, argv);
 	wxTheApp->CallOnInit();
 	wxTheApp->OnRun();

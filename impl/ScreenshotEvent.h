@@ -36,7 +36,10 @@ namespace demo {
 namespace wx {
 
 // define a new event class
-class ScreenshotEvent: public wxCommandEvent {
+class ScreenshotEvent;
+wxDECLARE_EVENT(SL_DESKTOP_DEMO_WX_SCREENSHOT, ScreenshotEvent);
+
+class ScreenshotEvent: public wxEvent {
 public:
 	enum Command { ID_CAPTURE = 1 };
 
@@ -44,7 +47,8 @@ private:
 	const string fileName;
 
 public:
-	ScreenshotEvent(wxEventType eventType, int id, const string& fileName);
+	ScreenshotEvent(wxEventType eventType, int windowId, const string& fileName);
+	ScreenshotEvent(const ScreenshotEvent& other);
 
 	/**
 	 * Get the file name to save the screenshot as.
@@ -52,8 +56,6 @@ public:
 	string GetFileName() const;
 	virtual wxEvent *Clone() const override;
 };
-
-wxDECLARE_EVENT(SL_DESKTOP_DEMO_WX_SCREENSHOT, ScreenshotEvent);
 
 typedef void (wxEvtHandler::*ScreenshotEventFunction)(ScreenshotEvent&);
 #define ScreenshotEventHandler(func) wxEVENT_HANDLER_CAST(ScreenshotEventFunction, func)

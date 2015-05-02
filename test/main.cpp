@@ -70,11 +70,8 @@ TEST(SlDesktopDemoWxBundle, DisplaysWindow) {
 
 		char* argv[] = { 0 };
 		service->openWindow(0, argv);
-		service->saveScreenshot("before.png");
-
-		// TODO send event that closes the main window
+		service->saveScreenshot("openWindow.png");
 		service->closeWindow();
-		// service->saveScreenshot("after.png");
 	} catch (const std::exception& e) {
 		FAIL() << e.what();
 	}

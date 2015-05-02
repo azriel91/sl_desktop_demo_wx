@@ -27,7 +27,12 @@ namespace wx {
 
 wxDEFINE_EVENT(SL_DESKTOP_DEMO_WX_SCREENSHOT, ScreenshotEvent);
 
-ScreenshotEvent::ScreenshotEvent(wxEventType eventType, int id, const string& fileName) : wxCommandEvent(id, eventType), fileName(fileName) {
+ScreenshotEvent::ScreenshotEvent(wxEventType eventType, int windowId, const string& fileName) :
+		wxEvent(windowId, eventType),
+		fileName(fileName) {
+}
+
+ScreenshotEvent::ScreenshotEvent(const ScreenshotEvent& other) : wxEvent(other), fileName(other.GetFileName()) {
 }
 
 string ScreenshotEvent::GetFileName() const {

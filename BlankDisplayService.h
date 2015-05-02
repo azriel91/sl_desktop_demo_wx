@@ -30,7 +30,10 @@
 #define SL_DESKTOP_DEMO_BLANK_DISPLAY_SERVICE_EXPORT US_ABI_EXPORT
 #endif
 
+#include <condition_variable>
+#include <mutex>
 #include <thread>
+
 #include "impl/BlankApplication.h"
 
 namespace sl {
@@ -40,6 +43,15 @@ namespace wx {
 
 class SL_DESKTOP_DEMO_BLANK_DISPLAY_SERVICE_EXPORT BlankDisplayService {
 private:
+	/** Whether there is already a thread starting wx */
+	bool wxApplicationIsScheduled;
+	/** Whether wx is running */
+	bool wxApplicationIsRunning;
+	/** The condition variable to wait on when wx is not running */
+	std::condition_variable* const wxRunningCond;
+	/** Mutex to prevent calls from being made to wx when it isn't running */
+	std::mutex* const wxMutex;
+	/** UI thread that runs wxWidgets */
 	std::thread* uiThread;
 	BlankApplication* const application;
 
@@ -51,7 +63,7 @@ public:
 	void saveScreenshot(const std::string fileName) const;
 
 private:
-	static void wxEntry(int argc, char** argv);
+	static void wxEntry(BlankDisplayService* const service, int argc, char** argv);
 };
 
 } /* namespace wx */

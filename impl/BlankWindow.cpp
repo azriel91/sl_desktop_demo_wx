@@ -27,11 +27,10 @@ namespace demo {
 namespace wx {
 
 wxBEGIN_EVENT_TABLE(BlankWindow, wxFrame)
+	EVT_SL_DESKTOP_DEMO_SCREENSHOT(ScreenshotEvent::Command::ID_CAPTURE, BlankWindow::takeScreenshot)
 	EVT_MENU(ID_Hello,   BlankWindow::OnHello)
 	EVT_MENU(wxID_EXIT,  BlankWindow::OnExit)
 	EVT_MENU(wxID_ABOUT, BlankWindow::OnAbout)
-
-	EVT_SL_DESKTOP_DEMO_SCREENSHOT(ScreenshotEvent::Command::ID_CAPTURE, BlankWindow::takeScreenshot)
 wxEND_EVENT_TABLE()
 
 BlankWindow::BlankWindow(const wxString& title, const wxPoint& pos, const wxSize& size) : wxFrame(NULL, wxID_ANY, title, pos, size) {
@@ -47,6 +46,8 @@ BlankWindow::BlankWindow(const wxString& title, const wxPoint& pos, const wxSize
 	SetMenuBar( menuBar );
 	CreateStatusBar();
 	SetStatusText( "Welcome to wxWidgets!" );
+
+	// Bind(SL_DESKTOP_DEMO_WX_SCREENSHOT, &BlankWindow::takeScreenshot, this, ScreenshotEvent::Command::ID_CAPTURE);
 }
 
 BlankWindow::~BlankWindow() {
@@ -65,7 +66,6 @@ void BlankWindow::OnAbout(wxCommandEvent& event) {
 }
 
 void BlankWindow::takeScreenshot(ScreenshotEvent& event) {
-	wxMessageBox("Taking Screenshot", "ScreenshotEvent", wxOK | wxICON_INFORMATION );
 	wxSize screenSize = wxGetDisplaySize();
 	wxBitmap bitmap(screenSize.x, screenSize.y);
 	wxScreenDC deviceContext;
@@ -76,7 +76,6 @@ void BlankWindow::takeScreenshot(ScreenshotEvent& event) {
 	memDc.SelectObject(wxNullBitmap);
 
 	bitmap.SaveFile(event.GetFileName(), wxBITMAP_TYPE_PNG);
-	// return bitmap;
 }
 
 } /* namespace wx */

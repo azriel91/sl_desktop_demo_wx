@@ -28,33 +28,87 @@ namespace desktop {
 namespace demo {
 namespace wx {
 
-BlankDisplayService::BlankDisplayService() : uiThread(nullptr), application(new BlankApplication()) {
+BlankDisplayService::BlankDisplayService() :
+		wxApplicationIsScheduled(false),
+		wxApplicationIsRunning(false),
+		wxRunningCond(new std::condition_variable()),
+		wxMutex(new std::mutex()),
+		uiThread(nullptr),
+		application(new BlankApplication()) {
 }
 
 BlankDisplayService::~BlankDisplayService() {
 	// The application is deleted by wx when it exits
 	// delete this->application;
+	delete this->wxMutex;
+	delete this->wxRunningCond;
 }
 
 void BlankDisplayService::openWindow(int argc, char** argv) {
-	wxApp::SetInstance(this->application);
-	this->uiThread = new std::thread(BlankDisplayService::wxEntry, argc, argv);
+	std::unique_lock<std::mutex> lock(*this->wxMutex);
+
+	// if wx is not already being started, we start it
+	if (!this->wxApplicationIsScheduled) {
+
+		// track that there is a thread that is starting the wx application
+		this->wxApplicationIsScheduled = true;
+
+		wxApp::SetInstance(this->application);
+		this->uiThread = new std::thread(BlankDisplayService::wxEntry, this, argc, argv);
+	}
+
+	// wait until the application is running before returning
+	while (!this->wxApplicationIsRunning) {
+		this->wxRunningCond->wait(lock);
+	}
 }
 
 void BlankDisplayService::closeWindow() {
+	std::unique_lock<std::mutex> lock(*this->wxMutex);
+	while (!this->wxApplicationIsRunning) {
+		this->wxRunningCond->wait(lock);
+	}
+
+	auto const window = this->application->GetTopWindow();
+	window->Close();
+
 	this->uiThread->join();
 	delete this->uiThread;
 	this->uiThread = nullptr;
 }
 
 void BlankDisplayService::saveScreenshot(const std::string fileName) const {
-	ScreenshotEvent* const screenshotEvent = new ScreenshotEvent(SL_DESKTOP_DEMO_WX_SCREENSHOT, ScreenshotEvent::Command::ID_CAPTURE, fileName);
-	this->application->QueueEvent(screenshotEvent); // Unfortunately this doesn't appear to work
+	std::unique_lock<std::mutex> lock(*this->wxMutex);
+	while (!this->wxApplicationIsRunning) {
+		this->wxRunningCond->wait(lock);
+	}
+
+	ScreenshotEvent screenshotEvent(SL_DESKTOP_DEMO_WX_SCREENSHOT, ScreenshotEvent::Command::ID_CAPTURE, fileName);
+	auto const window = wxTheApp->GetTopWindow();
+
+	// asynchronous call
+	wxPostEvent(window, screenshotEvent);
+
+	// We cannot call window->ProcessWindowEvent(...) as this function is not called by the UI thread
+	// We cannot call this->application->ProcessPendingEvents() without waiting as the event loop may not have started
+	// Perhaps we should override OnEventLoopEnter in the wxApp and let the application class take in an arbitrary function to run
+	// @see http://docs.wxwidgets.org/3.0/classwx_app_console.html#aa116701a3bd7700fe6979117e53ae999
 }
 
-void BlankDisplayService::wxEntry(int argc, char** argv) {
-	wxEntryStart(argc, argv);
-	wxTheApp->CallOnInit();
+void BlankDisplayService::wxEntry(BlankDisplayService* const service, int argc, char** argv) {
+	{
+		std::unique_lock<std::mutex> lock(*service->wxMutex);
+	
+		wxEntryStart(argc, argv);
+		wxTheApp->CallOnInit();
+
+		// after initialization, the application should be running
+		service->wxApplicationIsRunning = true;
+		service->wxRunningCond->notify_all();
+
+		// unlock the mutex by destroying the lock
+	}
+
 	wxTheApp->OnRun();
 	wxTheApp->OnExit();
 	wxEntryCleanup();

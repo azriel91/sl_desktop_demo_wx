@@ -26,6 +26,8 @@ namespace demo {
 namespace wx {
 
 bool BlankApplication::OnInit() {
+	wxImage::AddHandler(new wxPNGHandler);
+
 	BlankWindow *window = new BlankWindow( "Hello World", wxPoint(50, 50), wxSize(450, 340));
 	window->Show(true);
 	return true;

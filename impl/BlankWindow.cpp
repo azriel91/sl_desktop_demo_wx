@@ -66,13 +66,13 @@ void BlankWindow::OnAbout(wxCommandEvent& event) {
 }
 
 void BlankWindow::takeScreenshot(ScreenshotEvent& event) {
-	wxSize screenSize = wxGetDisplaySize();
-	wxBitmap bitmap(screenSize.x, screenSize.y);
-	wxScreenDC deviceContext;
+	wxSize windowSize = GetClientSize();
+	wxBitmap bitmap(windowSize.x, windowSize.y);
+	wxClientDC deviceContext(this);
 	wxMemoryDC memDc;
 
 	memDc.SelectObject(bitmap);
-	memDc.Blit(0, 0, screenSize.x, screenSize.y, &deviceContext, 0, 0);
+	memDc.Blit(0, 0, windowSize.x, windowSize.y, &deviceContext, 0, 0);
 	memDc.SelectObject(wxNullBitmap);
 
 	bitmap.SaveFile(event.GetFileName(), wxBITMAP_TYPE_PNG);

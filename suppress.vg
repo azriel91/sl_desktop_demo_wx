@@ -1,0 +1,167 @@
+{
+   <cppmicroservices - usModuleUtils>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:*
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_*
+   ...
+   fun:*usModuleRegistry.cpp
+   ...
+}
+
+
+{
+   <cppmicroservices - static lib initialization>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:*
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_*
+   ...
+   fun:*StaticModuleInitializer_CppMicroServices*
+}
+
+
+
+{
+   <libfontconfig - any function>
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,reachable
+   fun:*
+   ...
+   obj:/usr/lib/*/libfontconfig.so.*
+   ...
+}
+{
+   <libgobject - any>
+   Memcheck:Leak
+   match-leak-kinds: possible,indirect,reachable
+   ...
+   obj:/usr/lib/*/libgobject-*.so.0.*
+   ...
+}
+{
+   <libgobject - register fundamental>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:*
+   ...
+   fun:g_type_register_fundamental
+   obj:/usr/lib/*/libgobject-*.so.*
+   ...
+}
+{
+   <libgio - threading>
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:*
+   ...
+   fun:pthread_create@@GLIBC_*
+   ...
+   obj:/usr/lib/*/libgio-*.so.*
+   ...
+}
+{
+   <libglib - any>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:*
+   ...
+   obj:/lib/*/libglib-*.so.*
+   ...
+}
+{
+   <libdconfsettings - dbus>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:*
+   ...
+   fun:*dbus*
+   ...
+   obj:/usr/lib/*/gio/modules/libdconfsettings.so
+   ...
+}
+{
+   <libgio - dbus>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:*
+   ...
+   fun:*dbus*
+   ...
+   obj:/usr/lib/*/libgio-*.so.*
+   ...
+}
+{
+   <libgdk-xll - wxwidgets uses this>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:*
+   ...
+   obj:/usr/lib/*/libgdk-x11-*.so.*
+   ...
+}
+{
+   <libgtk-xll - wxwidgets uses this>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:*
+   ...
+   obj:/usr/lib/*/libgtk-x11-*.so.*
+   ...
+}
+{
+   <libgio - probably wx, stack trace shows g_get_filename_charsets>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:*
+   ...
+   obj:/usr/lib/*/libgio-*.so.*
+   ...
+}
+{
+   <libpango - any>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:*
+   ...
+   obj:/usr/lib/*/libpango-*.so.*
+   ...
+}
+{
+   <libfreetype - any>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:*
+   ...
+   obj:/usr/lib/*/libfreetype.so.*
+   ...
+}
+{
+   <dl - any>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:*
+   ...
+   fun:_dl_*
+   ...
+}
+{
+   <libX11 - any>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:*
+   ...
+   obj:/usr/lib/*/libX11.so.*
+   ...
+}
+{
+   <libcairo - any>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:*
+   ...
+   obj:/usr/lib/*/libcairo.so.*
+   ...
+}

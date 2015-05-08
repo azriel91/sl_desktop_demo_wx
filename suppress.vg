@@ -148,3 +148,18 @@
    obj:/usr/lib/*/libcairo.so.*
    ...
 }
+
+
+{
+   <travis: wx invalid read wcslen>
+   Memcheck:*
+   fun:wcslen
+   ...
+}
+
+{
+   <travis: libfontconfig invalid read>
+   Memcheck:*
+   obj:/usr/lib/*/libfontconfig.so.*
+   ...
+}

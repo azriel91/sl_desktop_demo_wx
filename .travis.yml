@@ -21,6 +21,9 @@ install:
   # To build wxwidgets, need to install libgtk-3-dev
 - sudo apt-get install -qq libgtk-3-dev
 
+  # Install xvfb to have a virtual display
+- sudo apt-get install -qq xvfb
+
   # Install valgrind
 - sudo apt-get install -qq valgrind
 
@@ -58,7 +61,8 @@ script:
 - bii init -l
 - bii configure -DBUILD_SHARED_LIBS=$SHARED_LIBS
 - bii build
-- valgrind --leak-check=full --gen-suppressions=all --suppressions=suppress.vg --show-reachable=yes --error-exitcode=1 "bin/${USER}_${BLOCK_NAME}_test_main"
+- Xvfb :1 -screen 0 640x480x16 & # Start virtual display
+- DISPLAY=:1 valgrind --leak-check=full --gen-suppressions=all --suppressions=suppress.vg --show-reachable=yes --error-exitcode=1 "bin/${USER}_${BLOCK_NAME}_test_main"
 
 after_success:
   # Publish block

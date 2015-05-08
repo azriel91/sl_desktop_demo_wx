@@ -1,7 +1,7 @@
 language: cpp
 compiler:
 - gcc
-- clang
+# - clang # stop building on clang due to a bug: http://stackoverflow.com/questions/15747223/why-does-this-basic-thread-program-fail-with-clang-but-pass-in-g
 
 before_install:
   # Don't build if the last commit was from travis

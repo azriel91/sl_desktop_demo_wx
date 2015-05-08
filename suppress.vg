@@ -152,14 +152,14 @@
 
 {
    <travis: wx invalid read wcslen>
-   Memcheck:*
+   Memcheck:Addr8
    fun:wcslen
    ...
 }
 
 {
    <travis: libfontconfig invalid read>
-   Memcheck:*
+   Memcheck:Addr4
    obj:/usr/lib/*/libfontconfig.so.*
    ...
 }

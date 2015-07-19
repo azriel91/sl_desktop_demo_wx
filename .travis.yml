@@ -88,7 +88,7 @@ env:
   - BLOCK_NAME=sl_desktop_demo_wx
   - USER=azriel
   # BII_PASSWORD
-  - secure: WJK/xsFymzk5k+5mtBE+mgqLXOgAQMOeStWnpTMS6WC0W+5mxvnfd+ThnOsWjjEgixghxenZelEcmSR0W6zmdUj6TN3J0tmVfJ67Hlv1FnnIdHBJgrEYbcZ8erkqSncHV339ecvjnKQyhXqjaMCfjmvVqiNxghDR+7RAmVWLtPg=
+  - secure: "dekhJJnZp5Y6d5kjBuw9VzH9ouCkhuUqw2xe9yomU2mvp2c/9od13GZIu6zEqZnh7RSFuk1pvujwG0XMA8zYNxCv9pxbFmM+4VSd12lu5Uruiql2Z0tSmU3rX1tNje/LrHAt3z1uBkYuZrhOFs46uW4J5mbi75zmo+VisAaYdlo="
   # GITHUB_TOKEN
   - secure: "I+qTUP4wP1dcy5zkhIsjuea3vwMLm/+BDUQqzC+3GyZNrlqXybxUFQ3Wce15V/tP+/gU6zujy+DFAo0+y3zb1bZhvKWGQMXpvSEI0JSccYmUsHNC/VaESc2QBaB7SkHlkKocBcPNCJCe48v/aeauxP0/IQeNc/XwpWP17LFhd7k="
   matrix:

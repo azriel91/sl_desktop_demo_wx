@@ -18,8 +18,9 @@ install:
 
 script:
 - bii-support/linux/build/default.sh
-- Xvfb :1 -screen 0 640x480x16 & # Start virtual display
+- Xvfb :1 -screen 0 640x480x16 & X_DISPLAY_PID=$(echo $!)
 - DISPLAY=:1 valgrind --leak-check=full --gen-suppressions=all --suppressions=suppress.vg --show-reachable=yes --error-exitcode=1 "bin/${USER}_${BLOCK_NAME}_test_main"
+- kill -s SIGINT $X_DISPLAY_PID
 
 after_success:
 - bii-support/travis/publish/biicode.sh

@@ -3,7 +3,7 @@ sudo: required
 language: cpp
 compiler:
 - gcc
-# - clang # stop building on clang due to a bug: http://stackoverflow.com/questions/15747223/why-does-this-basic-thread-program-fail-with-clang-but-pass-in-g
+- clang
 
 before_install:
 - git checkout $TRAVIS_BRANCH

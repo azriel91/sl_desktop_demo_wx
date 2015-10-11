@@ -29,7 +29,6 @@ env:
   global:
   - USER_EMAIL=azriel91@gmail.com
   - USER_NAME="azriel"
-  - COMMIT_IGNORE_BUILD="Promoted version. ***travis***"
   - BLOCK_NAME=sl_desktop_demo_wx
   - BII_USER=azriel
   # BII_PASSWORD

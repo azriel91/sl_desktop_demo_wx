@@ -23,7 +23,18 @@
 
 #include <google/gtest/gtest.h>
 
-#include "azriel/cppmicroservices/core/include/usModuleRegistry.h"
+// The wxWidgets includes MUST come before cppmicroservices, because msvc fails the compilation if strsafe.h is included
+// before tchar.h. wxWidgets includes tchar.h, and cppmicroservices includes strsafe.h
+#include <fenix/wxwidgets/wx/wxprec.h>
+#ifndef WX_PRECOMP
+	#include <fenix/wxwidgets/wx/wx.h>
+#endif
+
+// need to determine what is defining this macro, but it conflicts with the ServiceEvent::REGISTERED enum from
+// cppmicroservices
+#undef REGISTERED
+
+#include <azriel/cppmicroservices/core/include/usModuleRegistry.h>
 #include <azriel/cppmicroservices/core/include/usModule.h>
 #include <azriel/cppmicroservices/core/include/usModuleContext.h>
 
@@ -31,11 +42,6 @@
 #include "azriel/usbundleloader/BundleLoader.h"
 #else
 #include "azriel/cppmicroservices/core/include/usModuleImport.h"
-#endif
-
-#include "fenix/wxwidgets/wx/wxprec.h"
-#ifndef WX_PRECOMP
-	#include "fenix/wxwidgets/wx/wx.h"
 #endif
 
 #include "slDesktopDemoWxTestConfig.h"
